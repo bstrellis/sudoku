@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Sudoku for Lovers</title>
+    <!-- Not present in the tutorial. Just for basic styling. -->
+    <link rel="stylesheet" href="css/base.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.16/browser.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+  </head>
+  <body>
+    <div id="content"></div>
+    <script type="text/babel">
+      var MotherBox = React.createClass({
+        getInitialState: function() {
+          return {
+            numsInRows: this.populateRows()
+          };
+        },
+
+        populateRows: function() {
+          var actualNumsInRows = [];
+          for (var t = 0; t < 9; t++) {
+            actualNumsInRows.push([]);
+          }
+
+          for (var i = 0; i < 9; i++) {
+            var usedNums = [];
+            for (var k = 0; k < 9; k++) {
+              var num = Math.ceil(Math.random() * 9);
+              var isDuplicate = this.duplicateChecker(num, actualNumsInRows, usedNums, i, k);
+              if (isDuplicate) {
+                // recursion (how to do this?)
+              }
+
+              actualNumsInRows[i][k] = num;
+              usedNums.push(num);
+            }
+          }
+
+          return actualNumsInRows;
+        },
+
+        duplicateChecker: function(num, actualNumsInRows, usedNums, i, k) {
+          // check row
+          if (k !== 0) {
+            for (var z = 0; z < usedNums.length; z++) {
+              if (num === usedNums[z]) {
+                return true;
+              }
+            }
+          }
+          if (i !== 0) {
+            // check column
+            for (var q = 0; q < i; q++) {
+              if (num === actualNumsInRows[q][k]) {
+                return true;
+              }
+            }
+            // check square
+            if (i < 3 && k < 3) {
+              for (var y = 0; y < 3; y++) {
+                for (var o = 0; o < 3; o++) {
+                  if (actualNumsInRows[y][o]) {
+                    if (num === actualNumsInRows[y][o]) {
+                      return true;
+                    }
+                  }
+                }
+              }
+            } else if (i < 3 && k < 6) {
+              for (var y = 0; y < 3; y++) {
+                for (var o = 3; o < 6; o++) {
+                  if (actualNumsInRows[y][o] !== undefined) {
+                    if (num === actualNumsInRows[y][o]) {
+                      return true;
+                    }
+                  }
+                }
+              }
+            } else if (i < 3 && k < 9) {
+              for (var y = 0; y < 3; y++) {
+                for (var o = 6; o < 9; o++) {
+                  if (actualNumsInRows[y][o]) {
+                    if (num === actualNumsInRows[y][o]) {
+                      return true;
+                    }
+                  }
+                }
+              }
+            } else if (i < 6 && k < 3) {
+              for (var y = 3; y < 6; y++) {
+                for (var o = 0; o < 3; o++) {
+                  if (actualNumsInRows[y][o]) {
+                    if (num === actualNumsInRows[y][o]) {
+                      return true;
+                    }
+                  }
+                }
+              }
+            } else if (i < 6 && k < 6) {
+              for (var y = 3; y < 6; y++) {
+                for (var o = 3; o < 6; o++) {
+                  if (actualNumsInRows[y][o]) {
+                    if (num === actualNumsInRows[y][o]) {
+                      return true;
+                    }
+                  }
+                }
+              }
+            } else if (i < 6 && k < 9) {
+              for (var y = 3; y < 6; y++) {
+                for (var o = 6; o < 9; o++) {
+                  if (actualNumsInRows[y][o]) {
+                    if (num === actualNumsInRows[y][o]) {
+                      return true;
+                    }
+                  }
+                }
+              }
+            } else if (i < 9 && k < 3) {
+              for (var y = 6; y < 9; y++) {
+                for (var o = 0; o < 3; o++) {
+                  if (actualNumsInRows[y][o]) {
+                    if (num === actualNumsInRows[y][o]) {
+                      return true;
+                    }
+                  }
+                }
+              }
+            } else if (i < 9 && k < 6) {
+              for (var y = 6; y < 9; y++) {
+                for (var o = 3; o < 6; o++) {
+                  if (actualNumsInRows[y][o]) {
+                    if (num === actualNumsInRows[y][o]) {
+                      return true;
+                    }
+                  }
+                }
+              }
+            } else {
+              for (var y = 6; y < 9; y++) {
+                for (var o = 6; o < 9; o++) {
+                  if (actualNumsInRows[y][o]) {
+                    if (num === actualNumsInRows[y][o]) {
+                      return true;
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          return false;
+        },
+
+        transcribeRowsToColumns: function() {
+          var numsInRows = this.state.numsInRows;
+          var numsInColumns = [];
+          for (var m = 0; m < 9; m++) {
+            numsInColumns.push([]);
+            continue;
+          }
+
+          for (var i = 0; i < 9; i++) {
+            for (var k = 0; k < 9; k++) {
+              numsInColumns[k][i] = numsInRows[i][k];
+            }
+          }
+
+          return numsInColumns;
+        },
+
+        transcribeRowsToSquares: function() {
+          var numsInRows = this.state.numsInRows;
+          var numsInSquares = [];
+          for (var m = 0; m < 9; m++) {
+            numsInSquares.push([]);
+            continue;
+          }
+
+          for (var i = 0; i < 9; i++) {
+            for (var k = 0; k < 9; k++) {
+              if (i < 3 && k < 3) {
+                numsInSquares[0].push(numsInRows[i][k]);
+              } else if (i < 6 && k < 3) {
+                numsInSquares[1].push(numsInRows[i][k]);
+              } else if (i < 9 && k < 3) {
+                numsInSquares[2].push(numsInRows[i][k]);
+              } else if (i < 3 && k < 6) {
+                numsInSquares[3].push(numsInRows[i][k]);
+              } else if (i < 6 && k < 6) {
+                numsInSquares[4].push(numsInRows[i][k]);
+              } else if (i < 9 && k < 6) {
+                numsInSquares[5].push(numsInRows[i][k]);
+              } else if (i < 3 && k < 9) {
+                numsInSquares[6].push(numsInRows[i][k]);
+              } else if (i < 6 && k < 9) {
+                numsInSquares[7].push(numsInRows[i][k]);
+              } else {
+                numsInSquares[8].push(numsInRows[i][k]);
+              }
+            }
+          }
+
+          var numsInTopThreeSquares = [numsInSquares[0],
+                                       numsInSquares[1],
+                                       numsInSquares[2]];
+          var numsInMiddleThreeSquares = [numsInSquares[3],
+                                          numsInSquares[4],
+                                          numsInSquares[5]];
+          var numsInBottomThreeSquares = [numsInSquares[6],
+                                          numsInSquares[7],
+                                          numsInSquares[8]];
+
+          numsInSquares = [numsInTopThreeSquares,
+                           numsInMiddleThreeSquares,
+                           numsInBottomThreeSquares];
+
+          return numsInSquares;
+        },
+
+        render: function() {
+          var numsInColumns = this.transcribeRowsToColumns();
+          var numsInSquares = this.transcribeRowsToSquares();
+
+          return (
+            <div className="mother-box">
+              <Row numsInThisRow={this.state.numsInRows[0]}
+                   numsInColumns={numsInColumns}
+                   numsInSquares={numsInSquares[0]}/>
+              <Row numsInThisRow={this.state.numsInRows[1]}
+                   numsInColumns={numsInColumns}
+                   numsInSquares={numsInSquares[0]}/>
+              <Row numsInThisRow={this.state.numsInRows[2]}
+                   numsInColumns={numsInColumns}
+                   numsInSquares={numsInSquares[0]}/>
+              <Row numsInThisRow={this.state.numsInRows[3]}
+                   numsInColumns={numsInColumns}
+                   numsInSquares={numsInSquares[1]}/>
+              <Row numsInThisRow={this.state.numsInRows[4]}
+                   numsInColumns={numsInColumns}
+                   numsInSquares={numsInSquares[1]}/>
+              <Row numsInThisRow={this.state.numsInRows[5]}
+                   numsInColumns={numsInColumns}
+                   numsInSquares={numsInSquares[1]}/>
+              <Row numsInThisRow={this.state.numsInRows[6]}
+                   numsInColumns={numsInColumns}
+                   numsInSquares={numsInSquares[2]}/>
+              <Row numsInThisRow={this.state.numsInRows[7]}
+                   numsInColumns={numsInColumns}
+                   numsInSquares={numsInSquares[2]}/>
+              <Row numsInThisRow={this.state.numsInRows[8]}
+                   numsInColumns={numsInColumns}
+                   numsInSquares={numsInSquares[2]}/>
+            </div>
+          );
+        }
+      });
+
+      var Row = React.createClass({
+        render: function() {
+          return (
+            <div className="row">
+              <Cell numInCell={this.props.numsInThisRow[0]}
+                    numsInThisRow={this.props.numsInThisRow}
+                    numsInThisColumn={this.props.numsInColumns[0]}
+                    numsInThisSquare={this.props.numsInSquares[0]}/>
+              <Cell numInCell={this.props.numsInThisRow[1]}
+                    numsInThisRow={this.props.numsInThisRow}
+                    numsInThisColumn={this.props.numsInColumns[1]}
+                    numsInThisSquare={this.props.numsInSquares[0]}/>
+              <Cell numInCell={this.props.numsInThisRow[2]}
+                    numsInThisRow={this.props.numsInThisRow}
+                    numsInThisColumn={this.props.numsInColumns[2]}
+                    numsInThisSquare={this.props.numsInSquares[0]}/>
+              <Cell numInCell={this.props.numsInThisRow[3]}
+                    numsInThisRow={this.props.numsInThisRow}
+                    numsInThisColumn={this.props.numsInColumns[3]}
+                    numsInThisSquare={this.props.numsInSquares[1]}/>
+              <Cell numInCell={this.props.numsInThisRow[4]}
+                    numsInThisRow={this.props.numsInThisRow}
+                    numsInThisColumn={this.props.numsInColumns[4]}
+                    numsInThisSquare={this.props.numsInSquares[1]}/>
+              <Cell numInCell={this.props.numsInThisRow[5]}
+                    numsInThisRow={this.props.numsInThisRow}
+                    numsInThisColumn={this.props.numsInColumns[5]}
+                    numsInThisSquare={this.props.numsInSquares[1]}/>
+              <Cell numInCell={this.props.numsInThisRow[6]}
+                    numsInThisRow={this.props.numsInThisRow}
+                    numsInThisColumn={this.props.numsInColumns[6]}
+                    numsInThisSquare={this.props.numsInSquares[2]}/>
+              <Cell numInCell={this.props.numsInThisRow[7]}
+                    numsInThisRow={this.props.numsInThisRow}
+                    numsInThisColumn={this.props.numsInColumns[7]}
+                    numsInThisSquare={this.props.numsInSquares[2]}/>
+              <Cell numInCell={this.props.numsInThisRow[8]}
+                    numsInThisRow={this.props.numsInThisRow}
+                    numsInThisColumn={this.props.numsInColumns[8]}
+                    numsInThisSquare={this.props.numsInSquares[2]}/>
+            </div>
+          )
+        }
+      });
+
+      var Cell = React.createClass({
+        getInitialState: function() {
+          return {
+            value: '',
+            note: false
+          };
+        },
+
+        handleClick: function (event) {
+          if (event.shiftKey) {
+            this.setState({ note: !this.state.note });
+          }
+        },
+
+        handleTyping: function (event) {
+          var isDuplicate = false;
+          for (var i = 0; i < 9; i++) {
+            if (parseInt(event.target.value) === this.props.numsInThisRow[i] ||
+                parseInt(event.target.value) === this.props.numsInThisColumn[i] ||
+                parseInt(event.target.value) === this.props.numsInThisSquare[i]) {
+              isDuplicate = true;
+            }
+          }
+
+          var style = {};
+          if (isDuplicate) {
+            style = {
+              backgroundColor: "red"
+            };
+          } else if (this.state.note) {
+            style = {
+              color: "blue"
+            };
+          } else {
+            style = {
+              color: "black",
+              fontSize: "30px"
+            };
+          }
+
+          this.setState({
+            style: style,
+            value: this.state.note ?
+                   event.target.value.substr(0, 9) :
+                   event.target.value.substr(0, 1)
+          });
+        },
+
+        render: function() {
+          return (
+            <input
+                className="cell"
+                type="text"
+                placeholder={this.props.numInCell}
+                value={this.state.value}
+                style={this.state.style}
+                onClick={this.handleClick}
+                onChange={this.handleTyping}/>
+          );
+        }
+      });
+
+      ReactDOM.render(
+        <MotherBox />,
+        document.getElementById('content')
+      );
+    </script>
+  </body>
+</html>

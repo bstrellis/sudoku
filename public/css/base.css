@@ -1,0 +1,32 @@
+.mother-box {
+  border: 5px solid black;
+  height: 474px;
+  width: 472px;
+}
+
+.row:nth-child(3) {
+  border-bottom: 3px solid black;
+}
+
+.row:nth-child(6) {
+  border-bottom: 3px solid black;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.cell {
+  border: 1px solid black;
+  height: 48px;
+  width: 48px;
+}
+
+.cell:nth-child(9n - 6) {
+  border-right: 3px solid black;
+}
+
+.cell:nth-child(9n - 3) {
+  border-right: 3px solid black;
+}

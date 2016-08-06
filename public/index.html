@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <title>Sudoku for Lovers</title>
-    <!-- Not present in the tutorial. Just for basic styling. -->
     <link rel="stylesheet" href="css/base.css" />
+    <script src="scripts/sudoku-helpers.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.16/browser.js"></script>
@@ -15,144 +15,7 @@
     <script type="text/babel">
       var MotherBox = React.createClass({
         getInitialState: function() {
-          return {
-            numsInRows: this.populateRows()
-          };
-        },
-
-        populateRows: function() {
-          var actualNumsInRows = [];
-          for (var t = 0; t < 9; t++) {
-            actualNumsInRows.push([]);
-          }
-
-          for (var i = 0; i < 9; i++) {
-            var usedNums = [];
-            for (var k = 0; k < 9; k++) {
-              var num = this.generateNewNum(actualNumsInRows, usedNums, i, k);
-              actualNumsInRows[i][k] = num;
-              usedNums.push(num);
-            }
-          }
-
-          return actualNumsInRows;
-        },
-
-        generateNewNum: function(gridArr, numsInRow, rowIndex, colIndex) {
-          var num = Math.ceil(Math.random() * 9);
-          var isDuplicate = this.numIsDuplicate(num, gridArr, rowIndex, colIndex);
-          return isDuplicate ?
-                 this.generateNewNum(gridArr, numsInRow, rowIndex, colIndex) :
-                 num;
-        },
-
-        numIsDuplicate: function(num, gridArr, rowIndex, colIndex) {
-          var columnArray = this.getColumn(gridArr, colIndex);
-          if (columnArray.indexOf(num) !== -1) {
-            return true;
-          }
-
-          var rowArray = this.getRow(gridArr, rowIndex);
-          if (rowArray.indexOf(num) !== -1) {
-            return true;
-          }
-
-          var squareArray = this.getSquare(gridArr, rowIndex, colIndex);
-          if (squareArray.indexOf(num) !== -1) {
-            return true;
-          }
-
-          return false;
-        },
-
-        getColumn: function (gridArray, colIndex) {
-          var columnArray = [];
-          for (var rowIndex = 0; rowIndex < gridArray.length; rowIndex++) {
-            columnArray.push(gridArray[rowIndex][colIndex]);
-          }
-
-          return columnArray;
-        },
-
-        getRow: function (gridArray, rowIndex) {
-          return gridArray[rowIndex];
-        },
-
-        getSquare: function (gridArray, rowIndex, colIndex) {
-          var squareArray = [];
-          var firstIncrementToSquare = 0
-
-          var rowStartingIndex = 0;
-          var rowEndingIndex = 0;
-          var colStartingIndex = 0;
-          var colEndingIndex = 0;
-
-          if (rowIndex %)
-
-          switch(squareIndex) {
-            case 0:
-              rowStartingIndex = 0;
-              rowEndingIndex = 3;
-              colStartingIndex = 0;
-              colEndingIndex = 3;
-              break;
-            case 1:
-              rowStartingIndex = 3;
-              rowEndingIndex = 6;
-              colStartingIndex = 0;
-              colEndingIndex = 3;
-              break;
-            case 2:
-              rowStartingIndex = 6;
-              rowEndingIndex = 9;
-              colStartingIndex = 0;
-              colEndingIndex = 3;
-              break;
-            case 3:
-              rowStartingIndex = 3;
-              rowEndingIndex = 6;
-              colStartingIndex = 0;
-              colEndingIndex = 3;
-              break;
-            case 4:
-              rowStartingIndex = 3;
-              rowEndingIndex = 6;
-              colStartingIndex = 3;
-              colEndingIndex = 6;
-              break;
-            case 5:
-              rowStartingIndex = 3;
-              rowEndingIndex = 6;
-              colStartingIndex = 6;
-              colEndingIndex = 9;
-              break;
-            case 6:
-              rowStartingIndex = 6;
-              rowEndingIndex = 9;
-              colStartingIndex = 0;
-              colEndingIndex = 3;
-              break;
-            case 7:
-              rowStartingIndex = 6;
-              rowEndingIndex = 9;
-              colStartingIndex = 3;
-              colEndingIndex = 6;
-              break;
-            case 8:
-              rowStartingIndex = 6;
-              rowEndingIndex = 9;
-              colStartingIndex = 6;
-              colEndingIndex = 9;
-              break;
-          }
-
-          for (var rowIndex = rowStartingIndex; rowIndex < rowEndingIndex; rowIndex++) {
-            for (var colIndex = colStartingIndex; colIndex < colEndingIndex; colIndex++) {
-              squareArray.push(gridArray[rowIndex][colIndex]);
-            }
-          }
-          console.log('squareArray', squareArray);
-          return squareArray;
+          return { numsInRows: window.sudokuHelpers.createSudokuGrid() };
         },
 
         transcribeRowsToColumns: function() {
@@ -229,31 +92,31 @@
             <div className="mother-box">
               <Row numsInThisRow={this.state.numsInRows[0]}
                    numsInColumns={numsInColumns}
-                   numsInSquares={numsInSquares[0]}/>
+                   numsInSquares={numsInSquares[0]} />
               <Row numsInThisRow={this.state.numsInRows[1]}
                    numsInColumns={numsInColumns}
-                   numsInSquares={numsInSquares[0]}/>
+                   numsInSquares={numsInSquares[0]} />
               <Row numsInThisRow={this.state.numsInRows[2]}
                    numsInColumns={numsInColumns}
-                   numsInSquares={numsInSquares[0]}/>
+                   numsInSquares={numsInSquares[0]} />
               <Row numsInThisRow={this.state.numsInRows[3]}
                    numsInColumns={numsInColumns}
-                   numsInSquares={numsInSquares[1]}/>
+                   numsInSquares={numsInSquares[1]} />
               <Row numsInThisRow={this.state.numsInRows[4]}
                    numsInColumns={numsInColumns}
-                   numsInSquares={numsInSquares[1]}/>
+                   numsInSquares={numsInSquares[1]} />
               <Row numsInThisRow={this.state.numsInRows[5]}
                    numsInColumns={numsInColumns}
-                   numsInSquares={numsInSquares[1]}/>
+                   numsInSquares={numsInSquares[1]} />
               <Row numsInThisRow={this.state.numsInRows[6]}
                    numsInColumns={numsInColumns}
-                   numsInSquares={numsInSquares[2]}/>
+                   numsInSquares={numsInSquares[2]} />
               <Row numsInThisRow={this.state.numsInRows[7]}
                    numsInColumns={numsInColumns}
-                   numsInSquares={numsInSquares[2]}/>
+                   numsInSquares={numsInSquares[2]} />
               <Row numsInThisRow={this.state.numsInRows[8]}
                    numsInColumns={numsInColumns}
-                   numsInSquares={numsInSquares[2]}/>
+                   numsInSquares={numsInSquares[2]} />
             </div>
           );
         }
@@ -371,5 +234,6 @@
         document.getElementById('content')
       );
     </script>
+    <script src="scripts/unit-tests.js"></script>
   </body>
 </html>

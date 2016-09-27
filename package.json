@@ -1,5 +1,5 @@
 {
-  "name": "Sudoku for lovers",
+  "name": "Sudoku-for-lovers",
   "version": "0.0.0",
   "private": true,
   "main": "server.js",
@@ -10,5 +10,5 @@
   "devDependencies": {},
   "scripts": {
     "start": "node server.js"
-  },
+  }
 }

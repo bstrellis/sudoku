@@ -69,12 +69,14 @@ function testCreateSudokuGrid() {
     }
   }
 
+  // make sure that the numbers 1 - 9 are in each row
   for (var rowIndex = 0; rowIndex < gridArr.length; rowIndex++) {
     for (var possibleNum = 1; possibleNum < 9; possibleNum++) {
       assertStrictEqual(gridArr[rowIndex].indexOf(possibleNum) === -1, false);
     }
   }
 
+  // make sure that 1 - 9 are in each column
   var testColumn = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   for (var colIndex = 0; colIndex < gridArr.length; colIndex++) {
     var column = window.sudokuHelpers.getColumn(gridArr, colIndex);
@@ -96,6 +98,7 @@ function testGetColumn() {
   firstCol = window.sudokuHelpers.getColumn(grid, 0);
   assertArraysAreSimilar(firstCol, [8,9,3,5,4,6,7,1,2]);
 
+  // check that indices outside of the expected range throw an error
   assertErrorThrown(function () {
     window.sudokuHelpers.getColumn(grid, -1);
   });
@@ -119,6 +122,7 @@ function testGetRow() {
 function testGetSquare() {
   console.log(`*** testGetSquare`);
 
+  // check that correct squares are compiled from various starting points
   var grid = generate9By9TestGrid();
   var squareArray = window.sudokuHelpers.getSquare(grid, 2, 2);
   assertArraysAreSimilar(squareArray, [8,2,7,9,6,5,3,4,1]);
@@ -131,6 +135,15 @@ function testGetSquare() {
 
   squareArray = window.sudokuHelpers.getSquare(grid, 3, 3);
   assertArraysAreSimilar(squareArray, [4,6,8,5,1,3,9,7,2]);
+}
+
+function testAddEmptyCellsToGrid() {
+  console.log('*** testAddEmptyCellsToGrid');
+
+  // gridArr is Array
+  // randomFCRowIndex and randomFCColIndex is Number 
+  //
+
 }
 
 //////////////////////
@@ -185,6 +198,7 @@ function assertArraysAreSimilar(actualArray, expectedArray) {
   }
 
   if (expectedArray.length !== actualArray.length ||
+      // Json.stringify used to test equivalence in case of array shenanigans
       JSON.stringify(expectedArray) !== JSON.stringify(actualArray)) {
     throw new Error(`✖ expected ${expectedValue}, got ${actualValue}`);
   }

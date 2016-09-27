@@ -87,6 +87,7 @@
         render: function() {
           var numsInColumns = this.transcribeRowsToColumns();
           var numsInSquares = this.transcribeRowsToSquares();
+          console.log('addEmptyCellsToGrid', window.sudokuHelpers.addEmptyCellsToGrid(this.state.numsInRows));
 
           return (
             <div className="mother-box">

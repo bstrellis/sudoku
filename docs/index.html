@@ -87,7 +87,6 @@
         render: function() {
           var numsInColumns = this.transcribeRowsToColumns();
           var numsInSquares = this.transcribeRowsToSquares();
-          console.log('addEmptyCellsToGrid', window.sudokuHelpers.addEmptyCellsToGrid(this.state.numsInRows));
 
           return (
             <div className="mother-box">
@@ -185,6 +184,7 @@
         handleTyping: function (event) {
           var isDuplicate = false;
           for (var i = 0; i < 9; i++) {
+            // when user enters a number, check if num is already present in row, column, or square
             if (parseInt(event.target.value) === this.props.numsInThisRow[i] ||
                 parseInt(event.target.value) === this.props.numsInThisColumn[i] ||
                 parseInt(event.target.value) === this.props.numsInThisSquare[i]) {
